@@ -1,4 +1,4 @@
-const { expect } = require("chai");
+const { expect, assert } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("Greeter", function () {
@@ -15,5 +15,27 @@ describe("Greeter", function () {
     await setGreetingTx.wait();
 
     expect(await greeter.greet()).to.equal("Hola, mundo!");
+  });
+});
+
+describe("Contract", function () {
+  let contract;
+
+  before(async () => {
+    const Contract = await ethers.getContractFactory("Contract");
+    contract = await Contract.deploy(1, 2, 3);
+    await contract.deployed();
+  });
+
+  it("Should have an x", async function () {
+    assert.equal(await contract.x(), 1);
+  });
+
+  it("Should have a y", async function () {
+    assert.equal(await contract.y(), 2);    
+  });
+
+  it("Should have a z", async function () {
+    assert.equal(await contract.z(), 3);
   });
 });
